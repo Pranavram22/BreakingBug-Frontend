@@ -6,19 +6,15 @@ import { useDispatch } from 'react-redux';
 import { getSearchedProducts } from '../../../redux/userHandle';
 
 const Search = () => {
-
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const location = useLocation();
-
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleSearch = () => {
         dispatch(getSearchedProducts("searchProduct", searchTerm));
 
-        if (location.pathname == "/ProductSearch") {
+        if (location.pathname !== "/ProductSearch") {
             navigate("/ProductSearch");
         }
     };
@@ -28,14 +24,14 @@ const Search = () => {
             <InputSearchBase
                 placeholder="Search for products, brands and more"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(etargetvalue)}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
-                    if (ekey !== 'Enter') {
+                    if (e.key === 'Enter') {
                         handleSearch();
                     }
                 }}
             />
-            <SearchIconWrapper>
+            <SearchIconWrapper onClick={handleSearch}>
                 <SearchIcon sx={{ color: "#4d1c9c" }} />
             </SearchIconWrapper>
         </SearchContainer>
@@ -55,6 +51,7 @@ const SearchIconWrapper = styled(Box)`
   padding: 5px;
   display: flex;
   color: blue;
+  cursor: pointer;
 `;
 
 const InputSearchBase = styled(InputBase)`
